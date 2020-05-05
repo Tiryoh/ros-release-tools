@@ -2,10 +2,15 @@
 set -eu
 
 SRC_DIR=$(cd $(dirname ${BASH_SOURCE:-$0}); pwd)
-ROS_DISTRO=melodic
-ARCH=armhf
-# ARCH=arm64
-# ARCH=amd64
+if [ ! "${ROS_DISTRO:+foo}" ]; then
+  ROS_DISTRO=melodic
+fi
+if [ ! "${ARCH:+foo}" ]; then
+  ARCH=amd64
+fi
+
+COMMAND=${@:-""}
+echo $COMMAND
 
 pushd ${SRC_DIR}/${ROS_DISTRO} && \
 docker build -t tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core -f Dockerfile.${ARCH} . && \
