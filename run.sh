@@ -15,9 +15,18 @@ echo $COMMAND
 pushd ${SRC_DIR}/${ROS_DISTRO} && \
 docker build -t tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core -f Dockerfile.${ARCH} . && \
 popd
-docker run --rm -it \
-  -e UID=`id -u` -e GID=`id -g` \
-  -e GIT_EMAIL="`git config user.email`" \
-  -e GIT_NAME="`git config user.name`" \
-  -v "`pwd`:/catkin_ws/src/ros_package" \
-  tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core ${COMMAND}
+if [ -z $COMMAND ]; then
+  docker run --rm -it \
+    -e UID=`id -u` -e GID=`id -g` \
+    -e GIT_EMAIL="`git config user.email`" \
+    -e GIT_NAME="`git config user.name`" \
+    -v "`pwd`:/catkin_ws/src/ros_package" \
+    tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core
+else
+  docker run --rm \
+    -e UID=`id -u` -e GID=`id -g` \
+    -e GIT_EMAIL="`git config user.email`" \
+    -e GIT_NAME="`git config user.name`" \
+    -v "`pwd`:/catkin_ws/src/ros_package" \
+    tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core ${COMMAND}
+fi
