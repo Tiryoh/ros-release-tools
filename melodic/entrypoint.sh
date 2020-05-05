@@ -20,7 +20,7 @@ chown -R ubuntu:ubuntu /catkin_ws
 /sbin/su-exec ubuntu bash -l -c "/prepare_release.sh"
 echo "release prepare done"
 cd /catkin_ws/src/`ls -1 /catkin_ws/src | head -n1`
-if [ $# -gt 1 ]; then
+if [ $# -gt 0 ]; then
 	echo $@ | /sbin/su-exec ubuntu bash -li
 else
 	/sbin/su-exec ubuntu bash -li
