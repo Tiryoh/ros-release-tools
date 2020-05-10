@@ -50,8 +50,8 @@ jobs:
       - name: Run bloom-generate
         id: binary
         run: |
-          cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
-          ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
+          cd ${GITHUB_WORKSPACE}/ros_tutorials
+          ${GITHUB_WORKSPACE}/run.sh "cd rospy_tutorials && /release_binary.sh"
           echo ::set-output name=paths::$(ls release/*.deb)
         env:
           ROS_DISTRO: ${{ matrix.ros-distro }}
