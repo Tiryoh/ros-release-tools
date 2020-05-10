@@ -52,7 +52,7 @@ jobs:
         run: |
           cd ${GITHUB_WORKSPACE}/ros_tutorials
           ${GITHUB_WORKSPACE}/run.sh "cd rospy_tutorials && /release_binary.sh"
-          echo ::set-output name=paths::$(ls release/*.deb)
+          echo ::set-output name=paths::$(ls rospy_tutorials/release/*.deb)
         env:
           ROS_DISTRO: ${{ matrix.ros-distro }}
           ARCH: ${{ matrix.arch }}
