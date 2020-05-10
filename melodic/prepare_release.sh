@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -eu
 
-cd /catkin_ws
+cd /ros_ws
 catkin init
 rosdep update
 sudo apt update

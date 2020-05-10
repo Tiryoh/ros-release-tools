@@ -15,11 +15,11 @@ set +u
 source "/opt/ros/$ROS_DISTRO/setup.bash"
 set -u
 
-# mkdir -p /catkin_ws/src
-chown -R ubuntu:ubuntu /catkin_ws
+# mkdir -p /ros_ws/src
+chown -R ubuntu:ubuntu /ros_ws
 /sbin/su-exec ubuntu bash -l -c "/prepare_release.sh"
 echo "release prepare done"
-cd /catkin_ws/src/`ls -1 /catkin_ws/src | head -n1`
+cd /ros_ws/src/`ls -1 /ros_ws/src | head -n1`
 if [ $# -gt 0 ]; then
 	echo $@ | /sbin/su-exec ubuntu bash -li
 else
