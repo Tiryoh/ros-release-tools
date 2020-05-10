@@ -26,8 +26,9 @@ jobs:
       - name: Prepare test ROS package
         uses: actions/checkout@v2
         with:
-          repository: 'Tiryoh/co2_sensor_driver_ros'
-          path: 'co2_sensor_driver_ros'
+          repository: 'ros/ros_tutorials'
+          ref: 'melodic-devel'
+          path: 'ros_tutorials'
 
       - name: Prepare for Cross-Build
         run: |
@@ -44,7 +45,7 @@ jobs:
         continue-on-error: true
         id: amd64
         run: |
-          cd ${GITHUB_WORKSPACE}/co2_sensor_driver_ros
+          cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
           ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
           echo ::set-output name=paths::$(ls release/*amd64.deb)
         env:
@@ -55,7 +56,7 @@ jobs:
         continue-on-error: true
         id: arm64
         run: |
-          cd ${GITHUB_WORKSPACE}/co2_sensor_driver_ros
+          cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
           ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
           echo ::set-output name=paths::$(ls release/*arm64.deb)
         env:
@@ -66,7 +67,7 @@ jobs:
         continue-on-error: true
         id: armhf
         run: |
-          cd ${GITHUB_WORKSPACE}/co2_sensor_driver_ros
+          cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
           ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
           echo ::set-output name=paths::$(ls release/*armhf.deb)
         env:
