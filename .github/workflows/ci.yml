@@ -1,8 +1,6 @@
 name: CI
 on:
   push:
-    branches:
-      - master
     paths-ignore:
       - 'docs/**'
       - '**.md'
@@ -16,8 +14,13 @@ on:
       - synchronize
 
 jobs:
-  melodic:
+  build:
     runs-on: ubuntu-latest
+    continue-on-error: true
+    strategy:
+      matrix:
+        ros-distro: [melodic]
+        arch: [amd64, arm64, armhf]
     steps:
       - uses: actions/checkout@v2
         with:
@@ -31,6 +34,7 @@ jobs:
           path: 'ros_tutorials'
 
       - name: Prepare for Cross-Build
+        if: contains(matrix.arch, 'arm') == true
         run: |
           sudo apt-get install -y qemu-user-static
 
@@ -41,35 +45,16 @@ jobs:
           echo '{"experimental": "enabled"}' | tee -a ~/.docker/config.json > /dev/null
           sudo service docker restart
 
-      - name: amd64
-        continue-on-error: true
-        id: amd64
+      - name: Run bloom-generate
+        id: binary
         run: |
           cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
           ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
-          echo ::set-output name=paths::$(ls release/*amd64.deb)
+          echo ::set-output name=paths::$(ls release/*.deb)
         env:
-          ROS_DISTRO: melodic
-          ARCH: amd64
+          ROS_DISTRO: ${{ matrix.ros-distro }}
+          ARCH: ${{ matrix.arch }}
 
-      - name: arm64
-        continue-on-error: true
-        id: arm64
+      - name: Output binary name
         run: |
-          cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
-          ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
-          echo ::set-output name=paths::$(ls release/*arm64.deb)
-        env:
-          ROS_DISTRO: melodic
-          ARCH: arm64
-
-      - name: armhf
-        continue-on-error: true
-        id: armhf
-        run: |
-          cd ${GITHUB_WORKSPACE}/ros_tutorials/turtlesim
-          ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
-          echo ::set-output name=paths::$(ls release/*armhf.deb)
-        env:
-          ROS_DISTRO: melodic
-          ARCH: armhf
+          echo ${{ steps.binary.outputs.paths }}
