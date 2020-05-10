@@ -12,7 +12,7 @@ COPY --from=amd64 /usr/local/bin/su-exec /sbin/
 RUN apt-get update && \
 	apt-get install -y python-catkin-tools python-bloom dh-make && \
 	rm -rf /var/lib/apt/lists/*
-WORKDIR /catkin_ws
+WORKDIR /ros_ws
 COPY ./entrypoint.sh /
 COPY ./prepare_release.sh /
 COPY ./release.sh /
