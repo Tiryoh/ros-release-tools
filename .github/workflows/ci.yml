@@ -21,7 +21,7 @@ jobs:
     continue-on-error: true
     strategy:
       matrix:
-        ros-distro: [melodic]
+        ros-distro: [melodic, dashing]
         arch: [amd64, arm64, armhf]
     steps:
       - uses: actions/checkout@v2
