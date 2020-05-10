@@ -43,7 +43,7 @@ jobs:
         id: amd64
         run: |
           cd ${GITHUB_WORKSPACE}/co2_sensor_driver_ros
-          ${GITHUB_WORKSPACE}/ros-release-tools/run.sh /release_binary.sh
+          ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
           echo ::set-output name=paths::$(ls release/*amd64.deb)
         env:
           ROS_DISTRO: melodic
@@ -54,7 +54,7 @@ jobs:
         id: arm64
         run: |
           cd ${GITHUB_WORKSPACE}/co2_sensor_driver_ros
-          ${GITHUB_WORKSPACE}/ros-release-tools/run.sh /release_binary.sh
+          ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
           echo ::set-output name=paths::$(ls release/*arm64.deb)
         env:
           ROS_DISTRO: melodic
@@ -65,7 +65,7 @@ jobs:
         id: armhf
         run: |
           cd ${GITHUB_WORKSPACE}/co2_sensor_driver_ros
-          ${GITHUB_WORKSPACE}/ros-release-tools/run.sh /release_binary.sh
+          ${GITHUB_WORKSPACE}/run.sh /release_binary.sh
           echo ::set-output name=paths::$(ls release/*armhf.deb)
         env:
           ROS_DISTRO: melodic
