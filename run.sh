@@ -15,7 +15,7 @@ echo $COMMAND
 pushd ${SRC_DIR}/${ROS_DISTRO} && \
 docker build -t tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core -f Dockerfile.${ARCH} . && \
 popd
-if [ -z $COMMAND ]; then
+if [ -z "$COMMAND" ]; then
   docker run --rm -it \
     -e UID=`id -u` -e GID=`id -g` \
     -e GIT_EMAIL="`git config user.email`" \
