@@ -32,7 +32,7 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 'ros/ros_tutorials'
-          ref: 'melodic-devel'
+          ref: '${{ matrix.ros-distro }}-devel'
           path: 'ros_tutorials'
 
       - name: Prepare for Cross-Build
