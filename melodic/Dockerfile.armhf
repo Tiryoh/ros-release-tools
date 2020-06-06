@@ -11,11 +11,11 @@ RUN gcc -Wall /usr/local/bin/su-exec.c -o/usr/local/bin/su-exec
 RUN chown root:root /usr/local/bin/su-exec
 RUN chmod 0755 /usr/local/bin/su-exec
 
-FROM arm32v7/ros:melodic-ros-core
+FROM arm32v7/ros:melodic-ros-base
 COPY --from=amd64 /usr/bin/qemu-arm-static /usr/bin/
 COPY --from=armhf /usr/local/bin/su-exec /sbin/
 RUN apt-get update && \
-	apt-get install -y python-catkin-tools python-bloom dh-make && \
+	apt-get install -y python-catkin-tools python-bloom dh-make fakeroot && \
 	rm -rf /var/lib/apt/lists/*
 WORKDIR /ros_ws
 COPY ./entrypoint.sh /
