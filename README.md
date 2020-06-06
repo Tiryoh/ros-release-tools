@@ -27,6 +27,7 @@ jobs:
           git clone https://github.com/Tiryoh/ros-release-tools.git /tmp/ros-release-tools
       - name: Prepare for Cross-Build
         run: |
+          sudo apt-get update
           sudo apt-get install -y qemu-user-static
       - name: Prepare Docker
         run: |
