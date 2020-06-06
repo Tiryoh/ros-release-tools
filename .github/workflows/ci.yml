@@ -16,12 +16,11 @@ on:
       - synchronize
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  melodic:
+    runs-on: ubuntu-18.04
     continue-on-error: true
     strategy:
       matrix:
-        ros-distro: [melodic]
         arch: [amd64, arm64, armhf]
     steps:
       - uses: actions/checkout@v2
@@ -32,12 +31,13 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: 'ros/ros_tutorials'
-          ref: '${{ matrix.ros-distro }}-devel'
+          ref: 'melodic-devel'
           path: 'ros_tutorials'
 
       - name: Prepare for Cross-Build
         if: contains(matrix.arch, 'arm') == true
         run: |
+          sudo apt-get update
           sudo apt-get install -y qemu-user-static
 
       - name: Prepare Docker
@@ -54,7 +54,7 @@ jobs:
           ${GITHUB_WORKSPACE}/run.sh "cd rospy_tutorials && /release_binary.sh"
           echo ::set-output name=paths::$(ls rospy_tutorials/release/*.deb)
         env:
-          ROS_DISTRO: ${{ matrix.ros-distro }}
+          ROS_DISTRO: melodic
           ARCH: ${{ matrix.arch }}
 
       - name: Output binary name
