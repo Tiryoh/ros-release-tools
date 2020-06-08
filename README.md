@@ -1,11 +1,11 @@
 # ros-release-tools
-Dockerfiles for catkin_prepare_release and bloom-generate
+Dockerfiles for `catkin_prepare_release` and `bloom-generate`
 
 ## Usage
 
 ### Manual Release
 
-Run `bin/melodic-release.sh` in the target ROS package.
+Run [`bin/melodic-release.sh`](./bin/melodic-release.sh) in the target ROS package.
 
 ### GitHub Actions
 
