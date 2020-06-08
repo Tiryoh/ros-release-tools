@@ -5,7 +5,9 @@ INPUT_VERSION=$1
 echo release ${INPUT_VERSION}
 
 # Check duplication
-if git ls-remote --exit-code origin ${INPUT_VERSION}; then
+if find . | grep CHANGELOG.rst | xargs grep ${INPUT_VERSION} ||
+   git branch -a | grep release-${INPUT_VERSION} ||
+   git ls-remote --exit-code origin ${INPUT_VERSION}; then
   echo "Release already exists. Nothing to do." >&2
   exit 0
 fi
@@ -20,10 +22,10 @@ fi
 git fetch --tags --prune
 
 # Update Changelog
-if [[ ! -e CHANGELOG.rst ]]; then
-    catkin_generate_changelog --all
-else
+if find . | grep CHANGELOG.rst; then
     catkin_generate_changelog
+else
+    catkin_generate_changelog --all
 fi
 
 if ${update}
@@ -51,6 +53,3 @@ git commit -m "docs: Update changelog"
 # Bump up version
 catkin_prepare_release -y --no-push --version ${INPUT_VERSION}
 git tag -d ${INPUT_VERSION}
-
-# create binary
-/release_binary.sh

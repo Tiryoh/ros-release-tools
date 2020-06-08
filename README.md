@@ -1,7 +1,13 @@
 # ros-release-tools
-Dockerfiles for catkin_prepare_release and bloom-generate
+Dockerfiles for `catkin_prepare_release` and `bloom-generate`
 
 ## Usage
+
+### Manual Release
+
+Run [`bin/melodic-release.sh`](./bin/melodic-release.sh) in the target ROS package.
+
+### GitHub Actions
 
 Create `bloom-generate.yml` in `.github/workflows`.
 
@@ -27,6 +33,7 @@ jobs:
           git clone https://github.com/Tiryoh/ros-release-tools.git /tmp/ros-release-tools
       - name: Prepare for Cross-Build
         run: |
+          sudo apt-get update
           sudo apt-get install -y qemu-user-static
       - name: Prepare Docker
         run: |
