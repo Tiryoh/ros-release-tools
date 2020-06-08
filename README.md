@@ -1,4 +1,7 @@
 # ros-release-tools
+
+[![CI](https://github.com/Tiryoh/ros-release-tools/workflows/CI/badge.svg?branch=master)](https://github.com/Tiryoh/ros-release-tools/actions?query=workflow%3ACI+branch%3Amaster)
+
 Dockerfiles for `catkin_prepare_release` and `bloom-generate`
 
 ## Usage
