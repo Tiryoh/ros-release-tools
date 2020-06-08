@@ -53,6 +53,3 @@ git commit -m "docs: Update changelog"
 # Bump up version
 catkin_prepare_release -y --no-push --version ${INPUT_VERSION}
 git tag -d ${INPUT_VERSION}
-
-# create binary
-/release_binary.sh

@@ -3,6 +3,12 @@ Dockerfiles for catkin_prepare_release and bloom-generate
 
 ## Usage
 
+### Manual Release
+
+Run `bin/melodic-release.sh` in the target ROS package.
+
+### GitHub Actions
+
 Create `bloom-generate.yml` in `.github/workflows`.
 
 ```yml
