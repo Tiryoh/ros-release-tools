@@ -6,11 +6,28 @@ Dockerfiles for `catkin_prepare_release` and `bloom-generate`
 
 ## Usage
 
-### Manual Release
+### `catkin_prepare_release`
+
+#### Manual Release
 
 Run [`bin/melodic-release.sh`](./bin/melodic-release.sh) or [`bin/dashing-release.sh`](./bin/dashing-release.sh) in the target ROS package.
 
-### GitHub Actions
+### `bloom-generate`
+
+#### Manual Release
+
+Run the following command in the target ROS package.
+
+```
+ARCH=arm64 ROS_DISTRO=melodic ./run.sh /release_binary.sh
+```
+
+##### args, params
+
+* `ARCH`: `amd64`, `arm64`, `armhf`
+* `ROS_DISTRO`: `melodic`, `dashing`
+
+#### GitHub Actions
 
 Create `bloom-generate.yml` in `.github/workflows`.
 
