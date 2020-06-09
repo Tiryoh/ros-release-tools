@@ -8,7 +8,7 @@ Dockerfiles for `catkin_prepare_release` and `bloom-generate`
 
 ### Manual Release
 
-Run [`bin/melodic-release.sh`](./bin/melodic-release.sh) in the target ROS package.
+Run [`bin/melodic-release.sh`](./bin/melodic-release.sh) or [`bin/dashing-release.sh`](./bin/dashing-release.sh) in the target ROS package.
 
 ### GitHub Actions
 

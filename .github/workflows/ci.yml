@@ -51,10 +51,55 @@ jobs:
         id: binary
         run: |
           cd ${GITHUB_WORKSPACE}/ros_tutorials
-          ${GITHUB_WORKSPACE}/run.sh "cd rospy_tutorials && /release_binary.sh"
-          echo ::set-output name=paths::$(ls rospy_tutorials/release/*.deb)
+          ${GITHUB_WORKSPACE}/run.sh "cd turtlesim && /release_binary.sh"
+          echo ::set-output name=paths::$(ls turtlesim/release/*.deb)
         env:
           ROS_DISTRO: melodic
+          ARCH: ${{ matrix.arch }}
+
+      - name: Output binary name
+        run: |
+          echo ${{ steps.binary.outputs.paths }}
+
+  dashing:
+    runs-on: ubuntu-18.04
+    continue-on-error: true
+    strategy:
+      matrix:
+        arch: [amd64, arm64, armhf]
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Prepare test ROS package
+        uses: actions/checkout@v2
+        with:
+          repository: 'ros/ros_tutorials'
+          ref: 'dashing-devel'
+          path: 'ros_tutorials'
+
+      - name: Prepare for Cross-Build
+        if: contains(matrix.arch, 'arm') == true
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y qemu-user-static
+
+      - name: Prepare Docker
+        run: |
+          echo '{"experimental": true}' | sudo tee -a /etc/docker/daemon.json > /dev/null
+          mkdir ~/.docker
+          echo '{"experimental": "enabled"}' | tee -a ~/.docker/config.json > /dev/null
+          sudo service docker restart
+
+      - name: Run bloom-generate
+        id: binary
+        run: |
+          cd ${GITHUB_WORKSPACE}/ros_tutorials
+          ${GITHUB_WORKSPACE}/run.sh "cd turtlesim && /release_binary.sh"
+          echo ::set-output name=paths::$(ls turtlesim/release/*.deb)
+        env:
+          ROS_DISTRO: dashing
           ARCH: ${{ matrix.arch }}
 
       - name: Output binary name
