@@ -1,8 +1,27 @@
 #!/usr/bin/env bash
+
+source /ros_ws/install/setup.bash
+
 set -eu
 
 if [[ -e debian ]]; then rm -rf debian; fi
-bloom-generate rosdebian --os-name ubuntu --os-version bionic --ros-distro dashing
+
+if [[ $# -gt 0 ]] && [[ "$1" == "--ignore-src" ]]; then
+	touch /ros_ws/rosdep.yaml
+	sudo touch /etc/ros/rosdep/sources.list.d/50-my-packages.list
+	echo yaml file:///ros_ws/rosdep.yaml | sudo tee -a /etc/ros/rosdep/sources.list.d/50-my-packages.list > /dev/null
+	for ignore_package in ${@:2}; do
+		echo ignore: ${ignore_package}
+		echo "${ignore_package}:" >> /ros_ws/rosdep.yaml
+		echo "  ubuntu: [ros-dashing-$(echo ${ignore_package} | sed -e 's/_/-/g')]" >> /ros_ws/rosdep.yaml
+	done
+	rosdep update
+	bloom-generate rosdebian --os-name ubuntu --os-version bionic --ros-distro dashing
+else
+	bloom-generate rosdebian --os-name ubuntu --os-version bionic --ros-distro dashing
+fi
+
 fakeroot debian/rules binary
 mkdir -p release
 cp `ls ../*deb` ./release/
+echo "SUCCESS"
