@@ -1,7 +1,7 @@
-FROM ubuntu:18.04 as amd64
+FROM --platform=linux/amd64 ubuntu:18.04 as amd64
 RUN apt update && apt install -y qemu-user-static
 
-FROM arm32v7/ubuntu:bionic as armhf
+FROM --platform=linux/arm/v7 ubuntu:18.04 as armhf
 COPY --from=amd64 /usr/bin/qemu-arm-static /usr/bin/
 RUN apt-get update
 RUN apt-get install -y curl
@@ -11,7 +11,7 @@ RUN gcc -Wall /usr/local/bin/su-exec.c -o/usr/local/bin/su-exec
 RUN chown root:root /usr/local/bin/su-exec
 RUN chmod 0755 /usr/local/bin/su-exec
 
-FROM arm32v7/ros:dashing-ros-base
+FROM --platform=linux/arm/v7 ros:dashing-ros-base
 COPY --from=amd64 /usr/bin/qemu-arm-static /usr/bin/
 COPY --from=armhf /usr/local/bin/su-exec /sbin/
 RUN apt-get update && \
