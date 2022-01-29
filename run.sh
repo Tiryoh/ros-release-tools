@@ -10,10 +10,12 @@ if [ ! "${ARCH:+foo}" ]; then
 fi
 
 COMMAND=${@:-""}
-echo $COMMAND
+echo "${COMMAND}"
+echo "\$ARCH" "${ARCH}"
+echo "\$ROS_DISTRO" "${ROS_DISTRO}"
 
 pushd ${SRC_DIR}/${ROS_DISTRO} && \
-docker build -t tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core -f Dockerfile.${ARCH} . && \
+docker buildx build --platform=linux/${ARCH} -t tiryoh/ros-${ARCH}:${ROS_DISTRO}-ros-core -f Dockerfile . && \
 popd
 if [ -z "$COMMAND" ]; then
   docker run --rm -it \

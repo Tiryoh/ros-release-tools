@@ -1,10 +1,13 @@
 #!/usr/bin/env bash
 set -eu
 
+echo ==================
+echo uname -m: `uname -m`
+echo prepare_release.sh
+echo ==================
 cd /ros_ws
+rosdep update || echo \"rosdep update error\"; ping -c4 raw.githubusercontent.com; rosdep update;
 catkin init
-rosdep update
-sudo apt update
 rosdep install -r -y -i --from-paths .
 catkin build
 echo "catkin build passed"
